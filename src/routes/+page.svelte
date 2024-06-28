@@ -2,9 +2,10 @@
 	import { parseExcel } from '$lib/parse-excel.js';
 	import toast, { Toaster } from 'svelte-french-toast';
 	let metafieldData = '';
-
+	let pastedFirstTime = false;
     // Event listener for paste events
     document.addEventListener('paste', function(e) {
+				pastedFirstTime = true;
         const pastedData = e.clipboardData.getData('text');
 				toast.success('Data pasted successfully', {
 					position: "bottom-center"
@@ -232,5 +233,5 @@
 					position: "bottom-center"
 				});
 	}}>Copy to clipboard</button><br><br>
-<textarea value={metafieldData} rows="30" cols="50"></textarea>
+<textarea disabled={!pastedFirstTime} value={metafieldData} rows="30" cols="50"></textarea>
 
