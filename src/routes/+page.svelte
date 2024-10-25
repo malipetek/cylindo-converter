@@ -1,6 +1,7 @@
 <script >
 	import { parseExcel } from '$lib/parse-excel.js';
 	import toast, { Toaster } from 'svelte-french-toast';
+	import convertJSONtoMetafield from '$lib/convertJSONtoMetafield.js';
 	let metafieldData = '';
 	let pastedFirstTime = false;
     // Event listener for paste events
@@ -191,32 +192,7 @@
 //     "YSETDVKDKS": ""
 //   }
 // ];
-		function convertJSONtoMetafield(data) {
-			const identified_cols = {};
-			const col_values = {};
-			data.forEach((row, j) => {
-				Object.entries(row).forEach(([key, value], i) => {
-					if(value.match(/Group/)) {
-						identified_cols[i] = key;
-					}
-					if(identified_cols[i]) {
-						if(!col_values[identified_cols[i]]) {
-							col_values[identified_cols[i]] = [];
-						}
-						col_values[identified_cols[i]].push(value);
-					}
-				});
-			})
 
-			const metafield = {};
-			Object.entries(col_values).forEach(([key, value]) => {
-				col_values[key] = value.filter(Boolean).filter((v,i) => i > 0);
-				col_values[key].forEach((v, i) => {
-					metafield[v] = key;
-				});
-			});
-			return metafield;
-		}
 
 		// metafieldData = JSON.stringify(convertJSONtoMetafield(exampleData), null, 2);
 </script>
